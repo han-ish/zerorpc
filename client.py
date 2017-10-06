@@ -21,7 +21,7 @@ class Client(object):
 
         iface = raw_input("Enter the interface : ")
         cli.trace(iface)
-        time.sleep(3)
+        time.sleep(5)
         #for interface in cli.list():
         #    print(interface)
         response = cli.halt()

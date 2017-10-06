@@ -33,8 +33,14 @@ class Handler(object):
     def __init__(self, service):
         """This method initializes the service available"""
         self.port = 8888
-        #self.server = zerorpc.Server(Foo(self))    # Initializing the server with the service
-        self.server = zerorpc.Server(Bar(self))
+        services = {'bar' : {'serv' : Bar, 'port' : 8888}}
+        print("service : ", service)
+        if service not in services:
+            raise ValueError("Service unavailable")
+        server = services[service]['serv']
+        self.port = services[service]['port']
+        #self.server = zerorpc.Server(Bar(self))    # Initializing the server with the service
+        self.server = zerorpc.Server(server(self))
         try:
             self.server.bind('tcp://0.0.0.0:{}'.format(self.port))
         except Exception as exc:
@@ -55,3 +61,4 @@ class Handler(object):
         print("stopping server now. . . . .")
         self.server.stop()
         self.server.close()
+

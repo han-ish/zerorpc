@@ -19,7 +19,7 @@ class Bar(object):
         """This method will start a trace on the interface
         Usage : trace <interface>"""
         print("tracing interface {}".format(interface))
-        self.tcpdump = subprocess.Popen(['/usr/sbin/tcpdump', '-i', interface],
+        self.tcpdump = subprocess.Popen(['/usr/sbin/tcpdump', '-i', 'lo'],
                                        stdout=subprocess.PIPE)
          
     def halt(self):
