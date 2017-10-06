@@ -2,7 +2,7 @@ import zerorpc
 import subprocess
 import gevent
 
-class Bar(object):
+class TCPDump(object):
     """A bar class"""
     def __init__(self, handler):
         self.handler = handler

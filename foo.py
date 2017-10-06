@@ -1,7 +1,7 @@
-import zerorpc
+import zerorpc 
 import gevent
 
-from tcpdumper import Bar
+from tcpdumper import TCPDump
 
 class Foo(object):
     """This is the main service class (Dummy)"""
@@ -33,7 +33,7 @@ class Handler(object):
     def __init__(self, service):
         """This method initializes the service available"""
         self.port = 8888
-        services = {'bar' : {'serv' : Bar, 'port' : 8888}}
+        services = {'tcpdump' : {'serv' : TCPDump, 'port' : 8888}}
         print("service : ", service)
         if service not in services:
             raise ValueError("Service unavailable")
