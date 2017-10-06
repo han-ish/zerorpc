@@ -1,6 +1,8 @@
 import zerorpc
 import gevent
 
+from tcpdumper import Bar
+
 class Foo(object):
     """This is the main service class (Dummy)"""
     def __init__(self, handler):
@@ -31,7 +33,8 @@ class Handler(object):
     def __init__(self, service):
         """This method initializes the service available"""
         self.port = 8888
-        self.server = zerorpc.Server(Foo(self))    # Initializing the server with the service
+        #self.server = zerorpc.Server(Foo(self))    # Initializing the server with the service
+        self.server = zerorpc.Server(Bar(self))
         try:
             self.server.bind('tcp://0.0.0.0:{}'.format(self.port))
         except Exception as exc:
