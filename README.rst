@@ -22,13 +22,21 @@ Usage
 * client :
     $ python client.py
 
+More Usage
+----------
+sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+sock.connect((host, port))
+self.sock.send("tcpdump")
+service_port = self.sock.recv(1024)
+tcpdump = zerorpc.Client('tcp://127.0.0.1:{}'.format(service_port))
 
+* List interfaces available : 
+        interfaces = tcpdump.list()
+* Start trace on an interface
+        tcpdump.set_trace(interface)    # Eg : tcpdump.set_trace("wlan0")
+* Stop trace
+        tcpdump.stop_trace()
 
-See remote service documentation
---------------------------------
+..note::
+        The services are pluggable as one wish in the core.py
 
-You can introspect the remote service; it happens automatically if you don't
-specify the name of the function you want to call::
-
-   $ zerorpc --client --connect tcp://127.0.0.1:8000 # This line is required to start the generic server
-   $ zerorpc tcp://127.0.0.1:8888
