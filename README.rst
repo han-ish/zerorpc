@@ -17,10 +17,12 @@ On most systems, its a matter of::
 Usage
 -----
 
-server:: 
+server::
+
     $ python server.py
 
 client::
+
     $ python client.py
 
 More Usage
