@@ -1,6 +1,6 @@
 from __future__ import print_function
 from gevent.server import StreamServer
-from foo import Handler, Foo
+from core import Handler
 
 
 
