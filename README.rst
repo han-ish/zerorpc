@@ -37,7 +37,7 @@ More Usage
         #Start trace on an interface
         tcpdump.set_trace(interface)    # Eg : tcpdump.set_trace("wlan0")
         #Stop trace
-        #tcpdump.stop_trace()
+        tcpdump.stop_trace()
 
 .. note::
         The services are pluggable as one wish in the core.py
