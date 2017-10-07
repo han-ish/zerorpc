@@ -33,12 +33,14 @@ class TCPDump(object):
             with self.tcpdump.stdout as stdout:
                 #data = self.tcpdump.stdout.read()   # just for demo
                 data = stdout.read()
+            #with gevent.Timeout(3, False):
+            #    data = self.tcpdump.stdout.read()
         except Exception as e:
             print("No trace started. Caught : {}".format(e))
         else:
-            return data
+            return data if data.strip() else "No data found"
 
-    def halt(self):
+    def halt (self):
         """This method will halt the service and the server
         Usage : halt"""
         print("processing halt request")
