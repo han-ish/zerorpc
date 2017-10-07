@@ -29,8 +29,8 @@ More Usage
 
         sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
         sock.connect((host, port))
-        self.sock.send("tcpdump")
-        service_port = self.sock.recv(1024)
+        sock.send("tcpdump")
+        service_port = sock.recv(1024)
         tcpdump = zerorpc.Client('tcp://127.0.0.1:{}'.format(service_port))
         #List interfaces available : 
         interfaces = tcpdump.list()
