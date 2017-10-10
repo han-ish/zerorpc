@@ -30,18 +30,15 @@ More Usage
 
 .. code-block:: python
 
-        sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-        sock.connect((host, port))
-        sock.send("tcpdump")
-        service_port = sock.recv(1024)
-        tcpdump = zerorpc.Client('tcp://127.0.0.1:{}'.format(service_port))
-        #List interfaces available : 
-        interfaces = tcpdump.list()
-        #Start trace on an interface
-        tcpdump.set_trace(interface)    # Eg : tcpdump.set_trace("wlan0")
-        #Stop trace
-        tcpdump.stop_trace()
+    from services import TcpDump
+    import time
 
+    tcpdumpObj = TcpDump()
+    tcpdumpObj.setinterface("eth0")
+    tcpdumpObj.start_trace()
+    time.sleep(5)
+    tcpdumpObj.stop_trace()
+ 
 .. note::
         The services are pluggable as one wish in the core.py
 
