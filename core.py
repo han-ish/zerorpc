@@ -1,4 +1,4 @@
-import zerorpc 
+import zerorpc
 import gevent
 import subprocess
 
@@ -11,18 +11,17 @@ class TCPDump(object):
     def list(self):
         """This method will list the interfaces
         Usage : list"""
-        self.interfaces = subprocess.Popen(['/usr/sbin/tcpdump', 
-                                            '--list-interface'], 
+        self.interfaces = subprocess.Popen(['/usr/sbin/tcpdump',
+                                            '--list-interface'],
                                            stdout=subprocess.PIPE)
         return self.interfaces.stdout.read().split('\n')
-    
+
     def start_trace(self, interface):
         """This method will start a trace on the interface
         Usage : start_trace <interface>"""
         self.interface = interface
         print("tracing interface {}".format(interface))
-        self.tcpdump = subprocess.Popen(['/usr/sbin/tcpdump', '-i', interface],
-                                       stdout=subprocess.PIPE)
+        self.tcpdump = subprocess.Popen(['/usr/sbin/tcpdump', '-i', interface, '-w', 'trace.pcap'], stdout=subprocess.PIPE) # stdout was 'subprocess.PIPE
 
     def stop_trace(self):
         """This method will stop the trace
@@ -30,15 +29,15 @@ class TCPDump(object):
         print("stopping trace on interface {}".format(self.interface))
         try:
             self.tcpdump.terminate()
-            with self.tcpdump.stdout as stdout:
-                #data = self.tcpdump.stdout.read()   # just for demo
-                data = stdout.read()
+            #with self.tcpdump.stdout as stdout:
+            #    #data = self.tcpdump.stdout.read()   # just for demo
+            #    data = stdout.read()
             #with gevent.Timeout(3, False):
             #    data = self.tcpdump.stdout.read()
         except Exception as e:
             print("No trace started. Caught : {}".format(e))
-        else:
-            return data if data.strip() else "No data found"
+        #else:
+        #    return data if data.strip() else "No data found"
 
     def halt (self):
         """This method will halt the service and the server
@@ -50,13 +49,25 @@ class TCPDump(object):
         except Exception as e:
             return "nothing is listening {}".format(e)
 
+class DummyServer(object):
+    """The dummy server"""
+    def __init__(self, handler):
+        self.handler = handler
+
+    def read(self):
+        """Send a message to the client"""
+        return "hello world"
+
+    def halt(self):
+        """Halt the server"""
+        gevent.spawn_later(1, self.handler.stop)
 
 class Handler(object):
     """This class handles the request for services"""
     def __init__(self, service):
         """This method initializes the service available"""
         self.port = 8888
-        services = {'tcpdump' : {'serv' : TCPDump, 'port' : 8888}}
+        services = {'tcpdump' : {'serv' : TCPDump, 'port' : 8888}, 'dummy' : {'serv' : DummyServer, 'port' : 9999}}
         print("service : ", service)
         if service not in services:
             raise ValueError("Service unavailable")
