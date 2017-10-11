@@ -1,13 +1,10 @@
-from services import TcpDump, DummyServer
-from servers import Server
-from clients import Client
+from services import TcpDump, Server, Client
 import time
 
 tcpdumpObj = TcpDump()
 
 # Initializing server and client
-#server = Server()
-server = DummyServer()
+server = Server()
 client = Client()
 
 # Setting interface
@@ -16,15 +13,18 @@ tcpdumpObj.setinterface("lo")
 # Starting trace
 tcpdumpObj.start_trace()
 
-# Starting dummy server
+# Starting server
 server.start()
+print("server starting here")
 
-# Client reading
-time.sleep(1)
-print("client reading here")
-client.read()
 time.sleep(5)
+# Starting client
+print("client starting here")
+client.start()
+
+time.sleep(5)
+# STopping server
 server.stop()
-print("past that heh")
+
 tcpdumpObj.stop_trace()
 
