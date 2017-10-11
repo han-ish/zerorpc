@@ -49,25 +49,13 @@ class TCPDump(object):
         except Exception as e:
             return "nothing is listening {}".format(e)
 
-class DummyServer(object):
-    """The dummy server"""
-    def __init__(self, handler):
-        self.handler = handler
-
-    def read(self):
-        """Send a message to the client"""
-        return "hello world"
-
-    def halt(self):
-        """Halt the server"""
-        gevent.spawn_later(1, self.handler.stop)
 
 class Handler(object):
     """This class handles the request for services"""
     def __init__(self, service):
         """This method initializes the service available"""
         self.port = 8888
-        services = {'tcpdump' : {'serv' : TCPDump, 'port' : 8888}, 'dummy' : {'serv' : DummyServer, 'port' : 9999}}
+        services = {'tcpdump' : {'serv' : TCPDump, 'port' : 8888}}
         print("service : ", service)
         if service not in services:
             raise ValueError("Service unavailable")
