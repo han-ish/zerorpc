@@ -29,3 +29,20 @@ class TcpDump(object):
         """This method stops the current trace"""
         self.tcpdump.stop_trace()
 
+class DummyServer(object):
+    """The dummy server wrapper class"""
+    def __init__(self):
+        self.host, self.port  = '127.0.0.1', 8000
+        self.sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+        self.sock.connect((self.host, self.port))
+
+    def start(self):
+         """This method sets up the required connections"""
+         self.sock.send("dummy")
+         service_port = self.sock.recv(1024)
+         self.server = zerorpc.Client('tcp://127.0.0.1:{}'.format(service_port))
+
+    def stop(self):
+        """This method stops the server"""
+        self.server.halt()
+
